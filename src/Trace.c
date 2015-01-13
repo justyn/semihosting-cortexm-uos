@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
-#include "diag/Trace.h"
+#include "Trace.h"
 #include "string.h"
 
 #ifndef OS_INTEGER_TRACE_PRINTF_TMP_ARRAY_SIZE
