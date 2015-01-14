@@ -17,9 +17,9 @@ https://sourceforge.net/p/gnuarmeclipse/
 ## Functions
 Provides the following functions:
 ```c
-int trace_printf(const char* format, ...)
-int trace_puts(const char *s)
-int trace_putchar(int c)
+int trace_printf(const char* format, ...);
+int trace_puts(const char *s);
+int trace_putchar(int c);
 ```
 
 The semihosting integration is performed in the function call_host called by the above functions.
