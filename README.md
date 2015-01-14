@@ -16,24 +16,39 @@ https://sourceforge.net/p/gnuarmeclipse/
 
 ## Functions
 Provides the following functions:
-* trace_print
-* trace_puts
-* trace_putchar
+```c
+int trace_printf(const char* format, ...)
+int trace_puts(const char *s)
+int trace_putchar(int c)
+```
 
-Underneath, the semihosting integration is performed in the function call_host.
+The semihosting integration is performed in the function call_host called by the above functions.
 
 ## Usage
-At a minimum one of the following macros must be defined to be determine output method:
+Add inc/ to your include paths and src/ to your build path.
+
+Add `#include "Trace.h"` to any files you wish to use the functions in.
+
+
+
+Two macros must be defined, `TRACE` and one of the following be determine output method:
 * `OS_USE_TRACE_ITM` - ARM's Instrumentation Trace Macrocell (not yet supported by OpenOCD)
 * `OS_USE_TRACE_SEMIHOSTING_DEBUG` - Semihosting debug (unbuffered)
 * `OS_USE_TRACE_SEMIHOSTING_STDOUT` - Semihosting stdout (buffered)
 
-One of these can be passed to compilers like gcc directly using the -D argument.
+These can be passed to compilers like gcc directly, for example `-DTRACE -DOS_USE_TRACE_SEMIHOSTING_DEBUG`
+
+If using gcc-arm-embedded toolchain you should add the linker option `--specs=rdimon.specs`
 
 trace_printf uses vsnprintf from stdio.h, so this must be available, and this function will have a larger code size as a result.
 
 ### OpenOCD
 To enable semihosting in OpenOCD issue the command `arm semihosting enable` or via gdb with `mon arm semihosting enable`.
+
+For example, after successfully connecting to your target with OpenOCD, connect the debugger:
+```
+arm-none-eabi-gdb -ex "target ext localhost:3333" -ex "mon reset halt" -ex "mon arm semihosting enable" myproject.elf
+```
 
 ## Disclaimer
 This repository was created to make it easier for me to integrate these functions into my own projects for debugging purposes.
